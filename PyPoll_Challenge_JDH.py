@@ -6,7 +6,7 @@ import csv
 import os
 
 # Add a variable to load a file from a path.
-file_to_load = os.path.join("..", "Resources", "election_results.csv")
+file_to_load = os.path.join("Resources", "election_results.csv")
 # Add a variable to save the file to a path.
 file_to_save = os.path.join("analysis", "election_analysis.txt")
 
@@ -29,6 +29,7 @@ winning_percentage = 0
 # 2: Track the largest county and county voter turnout.
 largest_turnout_county = ""
 largest_turnout_county_votes = 0
+county_vote_percentage = 0
 
 
 # Read the csv and convert it into a list of dictionaries
@@ -48,7 +49,7 @@ with open(file_to_load) as election_data:
         candidate_name = row[2]
 
         # 3: Extract the county name from each row.
-        county_name = row[2]
+        county_name = row[1]
 
         # If the candidate does not match any existing candidate add it to
         # the candidate list
@@ -81,15 +82,15 @@ with open(file_to_load) as election_data:
 with open(file_to_save, "w") as txt_file:
 
     # Print the final vote count (to terminal)
-    election_results = (
+    county_vote_results = (
         f"\nElection Results\n"
         f"-------------------------\n"
         f"Total Votes: {total_votes:,}\n"
         f"-------------------------\n\n"
         f"County Votes:\n")
-    print(election_results, end="")
+    print(county_vote_results, end="")
 
-    txt_file.write(election_results)
+    txt_file.write(county_vote_results)
 
     # 6a: Write a for loop to get the county from the county dictionary.
     for county_name in county_votes:
@@ -103,8 +104,9 @@ with open(file_to_save, "w") as txt_file:
         print(county_vote_results)
          # 6e: Save the county votes to a text file.
         txt_file.write(county_vote_results)
+
          # 6f: Write an if statement to determine the winning county and get its vote count.
-        if (county_vote_count > largest_turnout_county):
+        if (county_vote_count > largest_turnout_county_votes):
             largest_turnout_county = county_name
             largest_turnout_county_votes = county_vote_count
 
